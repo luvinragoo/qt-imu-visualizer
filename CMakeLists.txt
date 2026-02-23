@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(qt-imu-visualizer LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Charts Network)
 
 qt_standard_project_setup()
 
@@ -19,6 +19,8 @@ target_link_libraries(qt-imu-visualizer
     PRIVATE
         Qt::Core
         Qt::Widgets
+        Qt::Charts
+        Qt::Network
 )
 
 include(GNUInstallDirs)
