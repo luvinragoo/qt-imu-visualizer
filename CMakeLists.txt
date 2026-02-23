@@ -11,6 +11,8 @@ qt_add_executable(qt-imu-visualizer
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    IMUSensor.h
+    IMUSensor.cpp
 )
 
 target_link_libraries(qt-imu-visualizer
