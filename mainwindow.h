@@ -28,8 +28,8 @@ private:
     QLineSeries  *m_series;    // the line being plotted
     QChart       *m_chart;     // the chart container
     QChartView   *m_chartView; // the widget that displays the chart
-
-    QUdpSocket *m_udpSocket; // listens for incoming UDP packets
+    QUdpSocket   *m_udpSocket; // listens for incoming UDP packets
+    int           m_sampleCount = 0; // tracks X axis position
 
 private slots:
     void onDataReceived(); // called automatically when data arrives
