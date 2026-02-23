@@ -30,6 +30,18 @@ MainWindow::MainWindow(QWidget *parent)
     m_chartView = new QChartView(m_chart);
     m_chartView->setRenderHint(QPainter::Antialiasing);  // smooth lines
     setCentralWidget(m_chartView);  // fills the whole window
+
+    //UDP Socket Setup
+    m_udpSocket = new QUdpSocket(this);
+    m_udpSocket->bind(QHostAddress::Any, 5005); // listens on port 5005
+
+    // Signal -> Slot connection
+    // When socket has data -> call onDataReceived() function
+    connect(m_udpSocket, &QUdpSocket::readyRead,
+            this, &MainWindow::onDataReceived);
+
+    qDebug() << "Listening for UDP on port 5005...";
+
 }
 
 MainWindow::~MainWindow()
@@ -37,4 +49,16 @@ MainWindow::~MainWindow()
     delete ui;
     // m_chart owns m_series, m_chartView owns m_chart
     // Qt parent-child ownership cleans them up automatically
+}
+
+void MainWindow::onDataReceived()
+{
+    while(m_udpSocket->hasPendingDatagrams()) {
+        QByteArray buffer;
+        buffer.resize(m_udpSocket->pendingDatagramSize());
+        m_udpSocket->readDatagram(buffer.data(), buffer.size());
+
+        QString message = QString::fromUtf8(buffer);
+        qDebug()<< "Received:" << message;
+    }
 }
